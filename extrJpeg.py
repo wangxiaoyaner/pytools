@@ -27,21 +27,21 @@ def seq2jpgs(filepath, savepath):
         
     i = startFrame
     seqlen = len(strlist) - 1
-    #ckfid.write(str(seqlen))
-    #ckfid.write('\n')
-    print filepath, seqlen
-#    while i <= seqlen:
-#        name = iid + str(i)
-#        name = name[len(name)-6:len(name)]
-#        name = setid + vid + name + '.jpg'
-#        name = os.path.join(savepath, name)
-#        print name
-#        f = open(name, 'wb')
-#        f.write(splitstring)
-#        f.write(strlist[i])
-#        f.close()
-#        i = i+mol
-#
+    ckfid.write(str(seqlen))
+    ckfid.write('\n')
+
+    while i <= seqlen:
+        name = iid + str(i)
+        name = name[len(name)-6:len(name)]
+        name = setid + vid + name + '.jpg'
+        name = os.path.join(savepath, name)
+        print name
+        f = open(name, 'wb')
+        f.write(splitstring)
+        f.write(strlist[i])
+        f.close()
+        i = i+mol
+
 if __name__ == "__main__":
     for train_item in trainset:
         p1 = os.path.join(setdir, train_item)
