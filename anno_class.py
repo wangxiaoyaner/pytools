@@ -53,6 +53,8 @@ class AnnotationInfo:
 			return 
 #		print 'ERROR, NO MACHES FOUND!'
 	
+        def match_caltech_mode(self, line):
+                
 	def handle_pascal_txt(self, pastxt):
 		f = open(pastxt, 'r')
 		lines = f.readlines()
@@ -60,6 +62,19 @@ class AnnotationInfo:
 		for line in lines:
 			self.match_mode(line)
         def handle_kitti_txt(self, kitti_txt):
+                pass
+        def handle_caltech_txt(self, caltech_txt), jpeg):
+                img = cv2.imread(jpeg)
+                self.record.height = str(img.shape[0])
+                self.record.weight = str(img.shape[1])
+                self.record.depth = str(img.shape[2])
+                tmp = jpeg.split('/')
+                self.record.imgname = tmp[len(tmp)-1]
+                f = open(caltech_txt, 'r')
+                lines = f.readlines()
+                f.close()
+
+            
         def handle_jpeg(self, jpeg):
                 img = cv2.imread(jpeg)
                 self.record.height = str(img.shape[0])
