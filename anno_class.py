@@ -12,6 +12,12 @@ class PASemptyrecord:
 		self.ymin = []
 		self.xmax = []
 		self.ymax = []
+                self.vxmin = []
+                self.vymin = []
+                self.vxmax = []
+                self.vymax = []
+                self.occl = []
+                self.lock = []
 		self.originlabel = []
 class AnnotationInfo:
 	def __init__(self):
@@ -21,6 +27,9 @@ class AnnotationInfo:
 		self.pattern3 = re.compile(r'Database : "(.+)"')
 		self.pattern4 = re.compile(r'Bounding box for object \d+ ".+" \(Xmin, Ymin\) - \(Xmax, Ymax\) : \((\d+), (\d+)\) - \((\d+), (\d+)\)')
 		self.pattern5 = re.compile(r'Original label for object \d+ ".+" : "(.+)"')
+                self.caltech1 = re.compile(r'num: (\d+)')
+                self.caltech2 = re.compile(r'label: (.+)')
+                self.caltech3 = re.compile(r'pos: (\d+
 	def match_mode(self,line):
 		match = self.pattern1.match(line)
 		if match:
