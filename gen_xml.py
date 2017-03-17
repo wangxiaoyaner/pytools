@@ -6,24 +6,28 @@ import os
 import sys
 import cv2
 import argparse
+_anno_dir = '/data/Caltech/annos/traintxts'
+_xml_dir =  '/data/Caltech/xml/Train'
+_jpeg_dir = '/data/Caltech/Train'
+_mode = 1
 def parse_args():
 	'''
 	Parse input arguments
 	'''
 	parser = argparse.ArgumentParser(description = 'gen xml annotations')
 	parser.add_argument('--annodir', dest='anno_dir', help='like pascal anno, jpeg, caltech anno txt', 
-				default=None, type=str)
+				default=_anno_dir, type=str)
 	parser.add_argument('--xmldir', dest='xml_dir', help='path to save xml files',
-				default=None, type=str)
+				default=_xml_dir, type=str)
 	parser.add_argument('--mode', dest='mode', help='0:only jpeg, 1:caltech txt, 2:pascal txt',
-				default=2, type=int)
+				default=_mode, type=int)
 	parser.add_argument('--jpegdir', dest='jpeg_dir', help='if mode = 1, need the origin jpeg for more details',
-				default=None, type=str)
-	if len(sys.argv) == 1:
-		parser.print_help()
-		sys.exit(1)
+				default=_jpeg_dir, type=str)
+    #if len(sys.argv) == 1:
+#		parser.print_help()
+#		sys.exit(1)
 	
-	args = parser.parser_args()
+	args = parser.parse_args()
 	return args
 
 
@@ -39,11 +43,11 @@ def gen_just_node(doc, father, sunname):
 	return sun
 	
 def write_info_to_xml(dir_file, AnnotationIf):
-	folder_info = 'INRIA'
+	folder_info = 'Caltech Pedestrain'
 	filename_info = AnnotationIf.record.imgname
         filename_info = filename_info.split('.')[0]+'.jpg'
-	database_info = 'INRIA'#AnnotationIf.record.database
-	annotation_info = 'PASCAL Annotation Version 1.00'
+	database_info = 'Caltech Pedestrain'#AnnotationIf.record.database
+	annotation_info = 'WXY annonation'
 	image_info = 'null'
 	source_flickrid_info = 'null'
 	owner_flickrid_info = 'null'
@@ -123,17 +127,15 @@ def main():
                                 myanno.handle_jpeg(os.path.join(pac_anno_dir, file))
                                 write_info_to_xml(os.path.join(xml_anno_dir, file[0:len(file)-4]+".xml"), myanno)
                 return
-	if mode == 1:
-		for file in os.listdir(pac_anno_dir):
-			if re.match(r'set\d\d',file):
-				for txt in os.listdir(file):
-					reans = re.match(r'(\d+)\.txt',txt)
-					if reans:
-						jpegn = reans.group(1)+'.jpg'
-						jpegname = os.join.path(caltech_jpeg_dir, jpegn)
-						myanno = anno.AnnotationInfo()
-						myanno.handle_caltech_txt(os.join.path(pac_anno_dir,firle,txt), jpegname)
-						write_info_to_xml(os.path.join(xml_anno_dir,reans.group(1) + '.xml'), myanno)
+        if mode == 1:
+		for txt in os.listdir(pac_anno_dir):
+		        reans = re.match(r'(\d+)\.txt',txt)
+			if reans:
+		                jpegn = reans.group(1)+'.jpg'
+				jpegname = os.path.join(caltech_jpeg_dir, jpegn)
+				myanno = anno.AnnotationInfo()
+				myanno.handle_caltech_txt(os.path.join(pac_anno_dir,txt), jpegname)
+				write_info_to_xml(os.path.join(xml_anno_dir,reans.group(1) + '.xml'), myanno)
 		return
 
 
