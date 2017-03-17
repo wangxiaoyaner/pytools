@@ -105,7 +105,7 @@ class AnnotationInfo:
 			return 
 #		print 'ERROR, NO MACHES FOUND!'
 	
-	def handle_caltech_txt(self, caltech_txt), jpeg):
+	def handle_caltech_txt(self, caltech_txt, jpeg):
                 img = cv2.imread(jpeg)
                 self.record.height = str(img.shape[0])
                 self.record.weight = str(img.shape[1])

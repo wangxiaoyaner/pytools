@@ -1,9 +1,31 @@
 #coding=utf-8
 from xml.dom.minidom import Document
+import re
 import anno_class as anno
 import os
 import sys
 import cv2
+import argparse
+def parse_args():
+	'''
+	Parse input arguments
+	'''
+	parser = argparse.ArgumentParser(description = 'gen xml annotations')
+	parser.add_argument('--annodir', dest='anno_dir', help='like pascal anno, jpeg, caltech anno txt', 
+				default=None, type=str)
+	parser.add_argument('--xmldir', dest='xml_dir', help='path to save xml files',
+				default=None, type=str)
+	parser.add_argument('--mode', dest='mode', help='0:only jpeg, 1:caltech txt, 2:pascal txt',
+				default=2, type=int)
+	parser.add_argument('--jpegdir', dest='jpeg_dir', help='if mode = 1, need the origin jpeg for more details',
+				default=None, type=str)
+	if len(sys.argv) == 1:
+		parser.print_help()
+		sys.exit(1)
+	
+	args = parser.parser_args()
+	return args
+
 
 def gen_node_with_text(doc, father, sunname, sun_text):
 	sun = doc.createElement(sunname)
@@ -87,10 +109,13 @@ def write_info_to_xml(dir_file, AnnotationIf):
 		f.write(doc.toprettyxml(indent='\t', encoding='utf-8'))
 	return 
 def main():
-        pac_anno_dir = sys.argv[1]
-        xml_anno_dir = sys.argv[2]
-        mode = sys.argv[3]
-        if int(mode) == 0:
+	args = parse_args()
+        pac_anno_dir = args.anno_dir
+        xml_anno_dir = args.xml_dir
+        mode = args.mode
+	caltech_jpeg_dir = args.jpeg_dir
+	#给jpeg图像弄个xml
+	if int(mode) == 0:
                 for file in os.listdir(pac_anno_dir):
                         if file.endswith(".jpg"):
                               #  print file
@@ -98,7 +123,23 @@ def main():
                                 myanno.handle_jpeg(os.path.join(pac_anno_dir, file))
                                 write_info_to_xml(os.path.join(xml_anno_dir, file[0:len(file)-4]+".xml"), myanno)
                 return
-                
+	if mode == 1:
+		for file in os.listdir(pac_anno_dir):
+			if re.match(r'set\d\d',file):
+				for txt in os.listdir(file):
+					reans = re.match(r'(\d+)\.txt',txt)
+					if reans:
+						jpegn = reans.group(1)+'.jpg'
+						jpegname = os.join.path(caltech_jpeg_dir, jpegn)
+						myanno = anno.AnnotationInfo()
+						myanno.handle_caltech_txt(os.join.path(pac_anno_dir,firle,txt), jpegname)
+						write_info_to_xml(os.path.join(xml_anno_dir,reans.group(1) + '.xml'), myanno)
+		return
+
+
+
+
+	#给pascal文件弄个xml
         for file in os.listdir(pac_anno_dir):
                 if file.endswith(".txt"):
 	                myanno = anno.AnnotationInfo()
