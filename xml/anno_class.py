@@ -51,6 +51,8 @@ class AnnotationInfo:
 			self.record.ymin.append(str(int(round(posy1))))
 			self.record.xmax.append(str(int(round(posx2))))
 			self.record.ymax.append(str(int(round(posy2))))
+                        assert int(round(posx2)) < self.record.weight
+                        assert int(round(posy2)) < self.record.height
 			return
 		match = self.caltech4.match(line)
 		if match:
