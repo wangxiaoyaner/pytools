@@ -1,3 +1,4 @@
+#coding=utf-8
 import re
 import cv2
 class PASemptyrecord:
@@ -43,16 +44,27 @@ class AnnotationInfo:
 
 		match = self.caltech3.match(line)
 		if match:
-			posx1 = float(match.group(1))
-			posy1 = float(match.group(2))
-			posx2 = float(match.group(3)) + posx1
-			posy2 = float(match.group(4)) + posy1
-			self.record.xmin.append(str(int(round(posx1))))
-			self.record.ymin.append(str(int(round(posy1))))
-			self.record.xmax.append(str(int(round(posx2))))
-			self.record.ymax.append(str(int(round(posy2))))
-                        assert int(round(posx2)) < self.record.weight
-                        assert int(round(posy2)) < self.record.height
+			posx1 = int(float(match.group(1)))
+			posy1 = int(float(match.group(2)))
+			posx2 = int(float(match.group(3))) + posx1
+			posy2 = int(float(match.group(4))) + posy1
+                        if posx2 > int(self.record.weight):
+                                print self.record.imgname, 'posx2', posx2,self.record.originlabel[-1], posx1, posy1, posx2,posy2
+                                posx2 = 639
+                        if posy2 > int(self.record.height):
+                                print self.record.imgname,'posy2',posy2, self.record.originlabel[-1], posx1, posy1, posx2, posy2
+                                posy2 = 479
+                            
+                        self.record.xmin.append(str(posx1))
+			self.record.ymin.append(str(posy1))
+			self.record.xmax.append(str(posx2))
+			self.record.ymax.append(str(posy2))
+                        
+                            #print posx2, self.record.weight
+                        #assert posx2 < int(self.record.weight)
+                        #if float(match.group(3)) > float(match.group(4)) and cmp('person',self.record.originlabel[-1])==0:
+                        #        print match.group(3), match.group(4),posx1,posy1,posx2,posy2
+                        #        print self.record.imgname
 			return
 		match = self.caltech4.match(line)
 		if match:
