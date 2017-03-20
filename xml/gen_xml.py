@@ -14,7 +14,7 @@ def parse_args():
 	'''
 	Parse input arguments
 	'''
-	parser = argparse.ArgumentParser(description = 'gen xml annotations')
+        parser = argparse.ArgumentParser(description = 'gen xml annotations')
 	parser.add_argument('--annodir', dest='anno_dir', help='like pascal anno, jpeg, caltech anno txt', 
 				default=_anno_dir, type=str)
 	parser.add_argument('--xmldir', dest='xml_dir', help='path to save xml files',
@@ -92,23 +92,24 @@ def write_info_to_xml(dir_file, AnnotationIf):
 	
 	num_obj = len(AnnotationIf.record.xmin)
 	for i in range(num_obj):
-#<object>
-		mobject = gen_just_node(doc, annotation, 'object')
+#<object>       
+                if AnnotationIf.record.originlabel[i] == 'person':
+		        mobject = gen_just_node(doc, annotation, 'object')
 		#<name>
-		object_name = gen_node_with_text(doc, mobject, 'name', 'person')
+		        object_name = gen_node_with_text(doc, mobject, 'name', AnnotationIf.record.originlabel[i])
 		#<pose,truncated,difficult>
-		object_pose = gen_node_with_text(doc, mobject, 'pose', 'UprightPerson')
-		object_truncated = gen_node_with_text(doc, mobject, 'truncated', '0')
-		object_difficult = gen_node_with_text(doc, mobject, 'difficult', '0')
+		        object_pose = gen_node_with_text(doc, mobject, 'pose', 'UprightPerson')
+	        	object_truncated = gen_node_with_text(doc, mobject, 'truncated', '0')
+	        	object_difficult = gen_node_with_text(doc, mobject, 'difficult', '0')
 		#<bndbox>
-		object_bndbox = gen_just_node(doc, mobject, 'bndbox')
+	        	object_bndbox = gen_just_node(doc, mobject, 'bndbox')
 		#<xmin,ymin,xmax,ymax>
-		xmin = gen_node_with_text(doc, object_bndbox, 'xmin', AnnotationIf.record.xmin[i])
-		ymin = gen_node_with_text(doc, object_bndbox, 'ymin', AnnotationIf.record.ymin[i])
-		xmax = gen_node_with_text(doc, object_bndbox, 'xmax', AnnotationIf.record.xmax[i])
-		ymax = gen_node_with_text(doc, object_bndbox, 'ymax', AnnotationIf.record.ymax[i])
+	        	xmin = gen_node_with_text(doc, object_bndbox, 'xmin', AnnotationIf.record.xmin[i])
+	        	ymin = gen_node_with_text(doc, object_bndbox, 'ymin', AnnotationIf.record.ymin[i])
+	            	xmax = gen_node_with_text(doc, object_bndbox, 'xmax', AnnotationIf.record.xmax[i])
+		        ymax = gen_node_with_text(doc, object_bndbox, 'ymax', AnnotationIf.record.ymax[i])
 	#
-	
+        
 	with open(dir_file, 'w') as f:
 		f.write(doc.toprettyxml(indent='\t', encoding='utf-8'))
 	return 

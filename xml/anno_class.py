@@ -48,13 +48,16 @@ class AnnotationInfo:
 			posy1 = int(float(match.group(2)))
 			posx2 = int(float(match.group(3))) + posx1
 			posy2 = int(float(match.group(4))) + posy1
-                        if posx2 > int(self.record.weight):
+                        if posx2 >= int(self.record.weight):
                                 print self.record.imgname, 'posx2', posx2,self.record.originlabel[-1], posx1, posy1, posx2,posy2
                                 posx2 = 639
-                        if posy2 > int(self.record.height):
+                        if posy2 >= int(self.record.height):
                                 print self.record.imgname,'posy2',posy2, self.record.originlabel[-1], posx1, posy1, posx2, posy2
                                 posy2 = 479
-                            
+                        assert posx1 >= 0
+                        assert posy1 >= 0
+                        assert posx2 != 640
+                        assert posy2 != 480
                         self.record.xmin.append(str(posx1))
 			self.record.ymin.append(str(posy1))
 			self.record.xmax.append(str(posx2))
