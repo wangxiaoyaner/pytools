@@ -1,8 +1,10 @@
 ansdir = '/Volumes/X.Y.W/annotations/';
+nFramedir = fullfile(ansdir, 'framesnum.txt');
 setsdir = {'set06','set07','set08','set09','set10'};
 idother = '000000';
 mol = 30;
 startFrame = 30;
+wxy = fopen(nFramedir,'w');
 for item = 1:length(setsdir)
     setdir = setsdir(item);
     setdir = setdir{1,1};
@@ -20,6 +22,9 @@ for item = 1:length(setsdir)
             numframe = a.A.nFrame;
             objs = a.A.objLists;
             labs = a.A.objLbl;
+            setid = str2num(setdir(4:5));
+            volid = str2num(matname(2:4));
+            fprintf(wxy,'%d %d %d\n', setid, volid, numframe);
             for i = startFrame:mol:numframe
                 sigle = objs(1,i);
                 sigle = sigle{1,1};
@@ -30,6 +35,9 @@ for item = 1:length(setsdir)
                 txtname = strcat(id, txtname);
                 txtpath = fullfile(ansdir,'testtxts',strcat(txtname, '.txt'))
                 f = fopen(txtpath, 'w');
+                fprintf(f, 'setid: %d\n',str2num(setdir(4:5)));
+                fprintf(f, 'volid: %d\n',str2num(matname(2:4)));
+                fprintf(f, 'frameid: %d\n',i);
                 fprintf(f, 'name: %s\n', txtname);
                 fprintf(f, 'num: %d\n', len);
                 for j = 1:len
@@ -40,12 +48,13 @@ for item = 1:length(setsdir)
                     fprintf(f, 'posv: %f %f %f %f\n', sigle(j).posv(1), sigle(j).posv(2), sigle(j).posv(3), sigle(j).posv(4));
                 end
                     fclose(f);
+                   
                     %  end
             end
         end
-    end
+    end  
 end
-    
+fclose(wxy);
 
 
 
