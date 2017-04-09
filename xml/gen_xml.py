@@ -6,15 +6,17 @@ import os
 import sys
 import cv2
 import argparse
-_anno_dir = '/data/Caltech/annos/traintxts'
-_xml_dir =  '/data/Caltech/xml/Train'
-_jpeg_dir = '/data/Caltech/Train'
+_anno_dir = '/data/Caltech/annos/testtxts'
+_xml_dir =  '/data/Caltech/xml/Test'
+_jpeg_dir = '/data/Caltech/Test'
 _mode = 1
+_diffcult = 0
 def parse_args():
 	'''
 	Parse input arguments
 	'''
         parser = argparse.ArgumentParser(description = 'gen xml annotations')
+        parser.add_argument('--difficult', dest='difficult', help='wrapper image', default = 0, type = int)
 	parser.add_argument('--annodir', dest='anno_dir', help='like pascal anno, jpeg, caltech anno txt', 
 				default=_anno_dir, type=str)
 	parser.add_argument('--xmldir', dest='xml_dir', help='path to save xml files',
@@ -100,7 +102,12 @@ def write_info_to_xml(dir_file, AnnotationIf):
 		#<pose,truncated,difficult>
 		        object_pose = gen_node_with_text(doc, mobject, 'pose', 'UprightPerson')
 	        	object_truncated = gen_node_with_text(doc, mobject, 'truncated', '0')
-	        	object_difficult = gen_node_with_text(doc, mobject, 'difficult', '0')
+                        diff = int(AnnotationIf.record.ymax[i]) - int(AnnotationIf.record.ymin[i])
+                        if _diffcult == 1 and diff < 50:
+                                diff = 1
+                        else:
+                                diff = 0
+	        	object_difficult = gen_node_with_text(doc, mobject, 'difficult', str(diff))
 		#<bndbox>
 	        	object_bndbox = gen_just_node(doc, mobject, 'bndbox')
 		#<xmin,ymin,xmax,ymax>
@@ -118,6 +125,7 @@ def main():
         pac_anno_dir = args.anno_dir
         xml_anno_dir = args.xml_dir
         mode = args.mode
+        _diffcult = args.difficult
 	caltech_jpeg_dir = args.jpeg_dir
 	#给jpeg图像弄个xml
 	if int(mode) == 0:
