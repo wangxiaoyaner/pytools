@@ -3,6 +3,7 @@ import numpy as np
 import os
 import math
 import scipy.io as sio
+import cPickle 
 
 nframe_path = 'USA_data/nFrame_USA_anno/framesnum.txt'
 ans_path = 'USA_data/res'
@@ -33,7 +34,7 @@ class EVALclatech:
  			['Scale=far',      [20,30],   [inf,inf], 0,   .5,  1.25]
 			]#需要喝下面的一一对应
 		#name, hr, vr, ar, overlap, filter
-		self.resize={"CCF":0,"ACF++":0}
+                self.resize={"CCF":0,"ACF++":0,"OurMethod":0}
 		self.aspectRatio = 0.41
 		self.ansevalalgs = []
 
@@ -191,6 +192,26 @@ class EVALclatech:
 			bb[:,2]=bb[:,2]+d
 		return bb
 	
+        def read_our_method_dt(self, alg_name):
+                alg_path = os.path.join(self.ans_path, alg_name, 'detections.pkl')
+                assert os.path.exists(alg_path)
+                with open(alg_path,'rb') as f:
+                        dt = cPickle.load(f)
+                        assert len(dt) == 2
+                        dt = dt[1]
+                        assert len(dt) == 4024
+                        self.ans[alg_name] = dt
+                        for i in range(len(dt)):
+                                s1 = dt[i][:,0:2]
+                                s2 = dt[i][:,2]-dt[i][:,0]
+                                s3 = dt[i][:,3]-dt[i][:,1]
+                                s4 = dt[i][:,4]
+                                s2 = s2.reshape(len(s2),1)
+                                s3 = s3.reshape(len(s3),1)
+                                s4 = s4.reshape(len(s4),1)
+                                dt[i] = np.hstack((s1,s2,s3,s4))
+                                #dt[i] = dt[i][np.where(dt[i][:,4]>0.7)[0],:]不加这个反而好了呢
+                
 	def read_single_dt(self, alg_name):
 		alg_path = os.path.join(self.ans_path,alg_name)
 		print 'handle alg:', alg_name, 'path:', alg_path
@@ -233,12 +254,13 @@ class EVALclatech:
 
 		#np.savetxt(alg_name+'.txt',l,fmt="%s",newline='\n')
 		self.ans[alg_name]=l
-		return
 	
 	def read_all_dt(self,algs):
 		for alg in algs:
-			self.read_single_dt(alg)
-		return
+                        if alg == 'OurMethod':
+                                self.read_our_method_dt(alg)
+                        else:
+			        self.read_single_dt(alg)
 		
 	def compRoc(self, gt, dt, roc, ref):
 		#return xs,ys,score(detection score corresponding to each(x,y),ref)
