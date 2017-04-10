@@ -4,8 +4,8 @@ import os
 import cv2
 import re
 
-startFrame = 30
-mol = 30
+startFrame = 3
+mol = 3
 jpegTrain = '/data/Caltech/Train'
 jpegTest = '/data/Caltech/Test'
 setdir = '/data/Caltech/caltech/'
@@ -52,13 +52,13 @@ if __name__ == "__main__":
                     seq2jpgs(p2,jpegTrain)
 
 
-    for test_item in testset:
-        p1 = os.path.join(setdir, test_item)
-        for parent, dirnames, filenames in os.walk(p1):
-            for filename in filenames:
-                if filename[0] != '.':
-                    p2 = os.path.join(p1, filename)
-                    seq2jpgs(p2,jpegTest)
+ #   for test_item in testset:
+ #       p1 = os.path.join(setdir, test_item)
+ #       for parent, dirnames, filenames in os.walk(p1):
+ #           for filename in filenames:
+ #               if filename[0] != '.':
+ #                   p2 = os.path.join(p1, filename)
+ #                   seq2jpgs(p2,jpegTest)
 
     ckfid.close()
         
