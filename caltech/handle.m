@@ -1,9 +1,9 @@
 ansdir = '/Volumes/X.Y.W/annotations/';
 nFramedir = fullfile(ansdir, 'framesnum.txt');
-setsdir = {'set06','set07','set08','set09','set10'};
+setsdir = {'set00','set01','set02','set03','set04','set05'};
 idother = '000000';
-mol = 30;
-startFrame = 30;
+mol = 3;
+startFrame = 3;
 wxy = fopen(nFramedir,'w');
 for item = 1:length(setsdir)
     setdir = setsdir(item);
@@ -33,7 +33,7 @@ for item = 1:length(setsdir)
                 txtname = strcat(idother, int2str(i));
                 txtname = txtname(size(txtname,2)-5:size(txtname,2));
                 txtname = strcat(id, txtname);
-                txtpath = fullfile(ansdir,'testtxts',strcat(txtname, '.txt'))
+                txtpath = fullfile(ansdir,'traintxts',strcat(txtname, '.txt'))
                 f = fopen(txtpath, 'w');
                 fprintf(f, 'setid: %d\n',str2num(setdir(4:5)));
                 fprintf(f, 'volid: %d\n',str2num(matname(2:4)));
