@@ -44,10 +44,10 @@ class AnnotationInfo:
 
 		match = self.caltech3.match(line)
 		if match:
-			posx1 = int(float(match.group(1)))
-			posy1 = int(float(match.group(2)))
-			posx2 = int(float(match.group(3))) + posx1
-			posy2 = int(float(match.group(4))) + posy1
+			posx1 = (float(match.group(1)))
+			posy1 = (float(match.group(2)))
+			posx2 = (float(match.group(3))) + posx1
+			posy2 = (float(match.group(4))) + posy1
                         if posx2 >= int(self.record.weight):
                                 print self.record.imgname, 'posx2', posx2,self.record.originlabel[-1], posx1, posy1, posx2,posy2
                                 posx2 = 639
@@ -83,10 +83,10 @@ class AnnotationInfo:
 			posvy1 = float(match.group(2))
 			posvx2 = float(match.group(3)) + posvx1
 			posvy2 = float(match.group(4)) + posvy1
-			self.record.vxmin.append(str(int(round(posvx1))))
-			self.record.vymin.append(str(int(round(posvy1))))
-			self.record.vxmax.append(str(int(round(posvx2))))
-			self.record.vymax.append(str(int(round(posvy2))))
+			self.record.vxmin.append(str(((posvx1))))
+			self.record.vymin.append(str(((posvy1))))
+			self.record.vxmax.append(str(((posvx2))))
+			self.record.vymax.append(str(((posvy2))))
 			return
 			
 

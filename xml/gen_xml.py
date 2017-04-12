@@ -6,9 +6,9 @@ import os
 import sys
 import cv2
 import argparse
-_anno_dir = '/data/Caltech/annos/testtxts'
-_xml_dir =  '/data/Caltech/xml/Test'
-_jpeg_dir = '/data/Caltech/Test'
+_anno_dir = '/data/Caltech/annos/traintxts3'
+_xml_dir =  '/data/Caltech/xml/Train3'
+_jpeg_dir = '/data/Caltech/Train3'
 _mode = 1
 _diffcult = 0
 def parse_args():
@@ -102,7 +102,7 @@ def write_info_to_xml(dir_file, AnnotationIf):
 		#<pose,truncated,difficult>
 		        object_pose = gen_node_with_text(doc, mobject, 'pose', 'UprightPerson')
 	        	object_truncated = gen_node_with_text(doc, mobject, 'truncated', '0')
-                        diff = int(AnnotationIf.record.ymax[i]) - int(AnnotationIf.record.ymin[i])
+                        diff = float(AnnotationIf.record.ymax[i]) - float(AnnotationIf.record.ymin[i])
                         if _diffcult == 1 and diff < 50:
                                 diff = 1
                         else:

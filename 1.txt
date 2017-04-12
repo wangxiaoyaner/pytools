@@ -1,0 +1,40 @@
+handle alg: OurMethod path: USA_data/res/OurMethod
+handle: USA_data/res/OurMethod/set06
+handle: USA_data/res/OurMethod/set07
+handle: USA_data/res/OurMethod/set08
+handle: USA_data/res/OurMethod/set09
+handle: USA_data/res/OurMethod/set10
+handle alg: CCF path: USA_data/res/CCF
+handle: USA_data/res/CCF/set06
+handle: USA_data/res/CCF/set07
+handle: USA_data/res/CCF/set08
+handle: USA_data/res/CCF/set09
+handle: USA_data/res/CCF/set10
+handle alg: ACF++ path: USA_data/res/ACF++
+handle: USA_data/res/ACF++/set06
+handle: USA_data/res/ACF++/set07
+handle: USA_data/res/ACF++/set08
+handle: USA_data/res/ACF++/set09
+handle: USA_data/res/ACF++/set10
+handle gt path: USA_data/usa_anno_mat/gt-Reasonable.mat
+handle gt path: USA_data/usa_anno_mat/gt-All.mat
+handle gt path: USA_data/usa_anno_mat/gt-Scale=near.mat
+3 3
+[ 40.  inf]
+[ 40.  inf]
+[ 40.  inf]
+[ 16.  inf]
+[ 16.  inf]
+[ 16.  inf]
+[ 64.  inf]
+[ 64.  inf]
+[ 64.  inf]
+OurMethod Reasonable 0.282528602845
+CCF Reasonable 0.187085515973
+ACF++ Reasonable 0.177073202514
+OurMethod All 0.706671687034
+CCF All 0.667292666632
+ACF++ All 0.690709366128
+OurMethod Scale=near 0.1040584358
+CCF Scale=near 0.046791343581
+ACF++ Scale=near 0.0509866389581
