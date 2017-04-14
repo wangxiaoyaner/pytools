@@ -258,8 +258,8 @@ class EVALclatech:
 	def read_all_dt(self,algs):
 		for alg in algs:
                         if alg == 'OurMethod':
-                                #self.read_our_method_dt(alg)
-                                self.read_single_dt(alg)
+                                self.read_our_method_dt(alg)
+                                #self.read_single_dt(alg)
                         else:
 			        self.read_single_dt(alg)
 		
