@@ -138,7 +138,7 @@ dataNames = {'UsaTest','UsaTrain','InriaTest',...
 
 % select databases, experiments and algorithms for evaluation
 dataNames = dataNames(1); % select one or more databases for evaluation
-exps = exps(4);           % select one or more experiment for evaluation
+exps = exps(1);           % select one or more experiment for evaluation
 algs = algs(:);           % select one or more algorithms for evaluation
 
 % remaining parameters and constants
