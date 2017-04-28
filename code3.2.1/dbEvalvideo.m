@@ -123,7 +123,7 @@ algs = {
 %   'MS-CNN',           0, clrs(59,:),  '--'
  
 %   'LDCF++',           0, clrs(61,:),  '--'
-%   'MRFC+Semantic',    0, clrs(63,:),  '--'
+   'Video',    0, clrs(63,:),  '--'
     'Single',           0, clrs(64,:),  '-'
 %      'CCF',              0, clrs(54,:),  '--'
 %      'ACF++',            0, clrs(60,:),  '-'
